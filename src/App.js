@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Sparkles, Heart, Feather, Gift, Sun, CloudRain, Moon, ArrowRight, RefreshCw } from 'lucide-react';
 
-// Configuración de la API (El entorno inyectará la clave real)
-const apiKey = "";
+// Configuración de la API de Gemini
+// La clave se obtiene de las variables de entorno
+const apiKey = process.env.REACT_APP_GEMINI_API_KEY || "";
 
 const RitualitosApp = () => {
   const [step, setStep] = useState('landing'); // landing, form, loading, results, error

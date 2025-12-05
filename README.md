@@ -1,70 +1,170 @@
-# Getting Started with Create React App
+# 🌟 Ritualitos
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Una aplicación web que ayuda a encontrar el regalo o gesto perfecto inspirado en la raíz, la emoción y el alma de las personas que amas.
 
-## Available Scripts
+## 🚀 Características
 
-In the project directory, you can run:
+- **Análisis profundo**: Responde 5 preguntas sobre la persona para quien buscas el regalo
+- **IA Generativa**: Usa la API de Gemini para generar recomendaciones personalizadas
+- **Tres tipos de recomendaciones**:
+  - 🎁 **Material**: Un objeto significativo
+  - ☀️ **Experiencial**: Una experiencia compartida
+  - 🪶 **Simbólico**: Un ritual o gesto psicomágico
+- **Diseño hermoso**: Interfaz moderna con Tailwind CSS y animaciones suaves
 
-### `npm start`
+## 📋 Requisitos Previos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Node.js (v14 o superior)
+- npm o yarn
+- Una API Key de Google Gemini ([Obtener aquí](https://makersuite.google.com/app/apikey))
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🔧 Instalación
 
-### `npm test`
+1. **Clona el repositorio**:
+```bash
+git clone https://github.com/jlcuenca/ritualitos.git
+cd ritualitos
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. **Instala las dependencias**:
+```bash
+npm install
+```
 
-### `npm run build`
+3. **Configura la API Key**:
+   - Copia el archivo `.env.example` a `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+   - Abre el archivo `.env` y reemplaza `tu_clave_api_de_gemini_aqui` con tu API Key real de Gemini:
+   ```
+   REACT_APP_GEMINI_API_KEY=tu_clave_real_aqui
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🎮 Uso
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Desarrollo Local
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Inicia el servidor de desarrollo:
+```bash
+npm start
+```
 
-### `npm run eject`
+La aplicación se abrirá en [http://localhost:3000](http://localhost:3000)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Build de Producción
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Crea una versión optimizada para producción:
+```bash
+npm run build
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Despliegue en GitHub Pages
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Asegúrate de tener configurada tu API Key** en el archivo `.env`
 
-## Learn More
+2. **Ejecuta el comando de deploy**:
+```bash
+npm run deploy
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Configura GitHub Pages**:
+   - Ve a tu repositorio en GitHub
+   - Settings → Pages
+   - En "Source", selecciona la rama `gh-pages` y carpeta `/ (root)`
+   - Guarda los cambios
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Accede a tu aplicación** en: `https://jlcuenca.github.io/ritualitos`
 
-### Code Splitting
+## 🔒 Seguridad de la API Key
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+⚠️ **IMPORTANTE**: 
 
-### Analyzing the Bundle Size
+- El archivo `.env` está en `.gitignore` y **NO se sube a GitHub**
+- Para GitHub Pages, la API key se "incrusta" en el build
+- **Considera los riesgos**: En aplicaciones estáticas, la API key es visible en el código del navegador
+- **Recomendación**: Para producción real, usa un backend que maneje las llamadas a la API
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Alternativa Segura (Recomendada para Producción)
 
-### Making a Progressive Web App
+Para mayor seguridad, considera:
+1. Crear un backend (Node.js, Python, etc.) que maneje las llamadas a Gemini
+2. El frontend solo llama a tu backend
+3. La API key permanece segura en el servidor
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 🛠️ Tecnologías Utilizadas
 
-### Advanced Configuration
+- **React** 19.2.1 - Framework de UI
+- **Tailwind CSS** 3.x - Estilos y diseño
+- **Lucide React** - Iconos
+- **Google Gemini API** - IA Generativa
+- **gh-pages** - Despliegue en GitHub Pages
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## 📁 Estructura del Proyecto
 
-### Deployment
+```
+ritualitos/
+├── public/              # Archivos públicos
+├── src/
+│   ├── App.js          # Componente principal
+│   ├── index.css       # Estilos globales
+│   └── index.js        # Punto de entrada
+├── .env                # Variables de entorno (NO en Git)
+├── .env.example        # Ejemplo de configuración
+├── tailwind.config.js  # Configuración de Tailwind
+├── postcss.config.js   # Configuración de PostCSS
+└── package.json        # Dependencias y scripts
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## 🎨 Personalización
 
-### `npm run build` fails to minify
+### Cambiar Colores
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Edita `tailwind.config.js` para personalizar la paleta de colores.
+
+### Modificar Preguntas
+
+Las preguntas están en el array `questions` dentro de `src/App.js`.
+
+### Ajustar el Prompt de IA
+
+El prompt para Gemini está en la función `generateRitual()` en `src/App.js`.
+
+## 📝 Scripts Disponibles
+
+- `npm start` - Inicia el servidor de desarrollo
+- `npm run build` - Crea el build de producción
+- `npm test` - Ejecuta los tests
+- `npm run deploy` - Despliega a GitHub Pages
+
+## 🐛 Solución de Problemas
+
+### Error: "API Key no válida"
+- Verifica que tu API Key de Gemini sea correcta
+- Asegúrate de que el archivo `.env` esté en la raíz del proyecto
+- Reinicia el servidor de desarrollo después de cambiar `.env`
+
+### La aplicación no carga en GitHub Pages
+- Verifica que la rama `gh-pages` exista
+- Revisa la configuración en Settings → Pages
+- Espera unos minutos después del deploy
+
+## 📄 Licencia
+
+Este proyecto es de código abierto y está disponible bajo la licencia MIT.
+
+## 👤 Autor
+
+**jlcuenca**
+
+- GitHub: [@jlcuenca](https://github.com/jlcuenca)
+
+## 🙏 Agradecimientos
+
+- Google Gemini por la API de IA
+- La comunidad de React y Tailwind CSS
+- Todos los que creen en el poder de los gestos significativos
+
+---
+
+Hecho con ❤️ y ✨ para tejer vínculos más profundos
