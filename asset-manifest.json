@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ritualitos/static/css/main.95822e76.css",
+    "main.js": "/ritualitos/static/js/main.6dc2fa30.js",
+    "static/js/453.0a06ce89.chunk.js": "/ritualitos/static/js/453.0a06ce89.chunk.js",
+    "index.html": "/ritualitos/index.html",
+    "main.95822e76.css.map": "/ritualitos/static/css/main.95822e76.css.map",
+    "main.6dc2fa30.js.map": "/ritualitos/static/js/main.6dc2fa30.js.map",
+    "453.0a06ce89.chunk.js.map": "/ritualitos/static/js/453.0a06ce89.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.95822e76.css",
+    "static/js/main.6dc2fa30.js"
+  ]
+}
