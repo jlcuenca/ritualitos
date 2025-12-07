@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ritualitos/static/css/main.95822e76.css",
-    "main.js": "/ritualitos/static/js/main.0a6ffccd.js",
+    "main.css": "/ritualitos/static/css/main.92332fa4.css",
+    "main.js": "/ritualitos/static/js/main.55e9d54a.js",
     "static/js/453.0a06ce89.chunk.js": "/ritualitos/static/js/453.0a06ce89.chunk.js",
     "index.html": "/ritualitos/index.html",
-    "main.95822e76.css.map": "/ritualitos/static/css/main.95822e76.css.map",
-    "main.0a6ffccd.js.map": "/ritualitos/static/js/main.0a6ffccd.js.map",
+    "main.92332fa4.css.map": "/ritualitos/static/css/main.92332fa4.css.map",
+    "main.55e9d54a.js.map": "/ritualitos/static/js/main.55e9d54a.js.map",
     "453.0a06ce89.chunk.js.map": "/ritualitos/static/js/453.0a06ce89.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.95822e76.css",
-    "static/js/main.0a6ffccd.js"
+    "static/css/main.92332fa4.css",
+    "static/js/main.55e9d54a.js"
   ]
 }
