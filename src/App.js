@@ -79,6 +79,13 @@ const RitualitosApp = () => {
 
   // Lógica de Generación con IA
   const generateRitual = async () => {
+    if (!apiKey) {
+      setStep('error');
+      console.error("API Key is missing");
+      alert("Falta la clave de API. Por favor configura REACT_APP_GEMINI_API_KEY en el archivo .env");
+      return;
+    }
+
     setStep('loading');
 
     // Rotación de mensajes de carga
@@ -145,7 +152,11 @@ const RitualitosApp = () => {
       });
 
       const data = await response.json();
-      const textResponse = data.candidates[0].content.parts[0].text;
+      let textResponse = data.candidates[0].content.parts[0].text;
+
+      // Limpiar la respuesta de bloques de código markdown si existen
+      textResponse = textResponse.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+
       const jsonResponse = JSON.parse(textResponse); // Parseamos el JSON
 
       setRitualData(jsonResponse);
