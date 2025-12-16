@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, Heart, Feather, Gift, Sun, CloudRain, Moon, ArrowRight, RefreshCw } from 'lucide-react';
 
-// Configuración de la API de Gemini
-// La clave se obtiene de las variables de entorno
-const apiKey = process.env.REACT_APP_GEMINI_API_KEY || "";
+
 
 const RitualitosApp = () => {
   const [step, setStep] = useState('landing'); // landing, form, loading, results, error
@@ -77,7 +75,7 @@ const RitualitosApp = () => {
     }
   };
 
-  // Lógica de Generación con IA
+  // Lógica de Generación vía Backend (Serverless)
   const generateRitual = async () => {
     setStep('loading');
 
@@ -95,58 +93,23 @@ const RitualitosApp = () => {
     }, 2000);
 
     try {
-      const prompt = `
-        Actúa como 'Ritualitos', un sistema experto en psicología, vínculos humanos y simbología ancestral.
-        
-        PERFIL DE LA PERSONA:
-        1. Vínculo: ${answers.who}
-        2. Clima Interno: ${answers.climate}
-        3. Herida/Necesidad: ${answers.pain}
-        4. Su Luz: ${answers.light}
-        5. Mensaje Silencioso: ${answers.message}
+      // Llamada a NUESTRO backend (Serverless Function)
+      // En desarrollo local (si usas `vercel dev`): http://localhost:3000/api/generate
+      // En producción (Vercel): /api/generate
 
-        TAREA:
-        Genera 3 recomendaciones de regalo/gesto altamente personalizadas.
-        El tono debe ser cálido, humano, profundo y con toques de sabiduría ancestral.
-        
-        FORMATO JSON (IMPORTANTE: Solo devuelve el JSON, nada más):
-        {
-          "analisis": "Una frase poética y empática que resuma su estado actual y vuestro vínculo.",
-          "material": {
-            "titulo": "Nombre del objeto",
-            "descripcion": "Qué es exactamente (sé específico, no genérico).",
-            "significado": "El por qué emocional y simbólico."
-          },
-          "experiencial": {
-            "titulo": "Nombre de la experiencia",
-            "descripcion": "Qué harán (o hará) exactamente.",
-            "significado": "Cómo esto sana o conecta."
-          },
-          "simbolico": {
-            "titulo": "Nombre del ritual",
-            "descripcion": "Un acto pequeño, psicomágico o simbólico.",
-            "significado": "La intención espiritual/energética detrás."
-          },
-          "cierre": "Una frase final de bendición o buenos deseos."
-        }
-      `;
-
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
+      const response = await fetch('/api/generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseMimeType: "application/json"
-          }
-        })
+        body: JSON.stringify(answers)
       });
 
-      const data = await response.json();
-      const textResponse = data.candidates[0].content.parts[0].text;
-      const jsonResponse = JSON.parse(textResponse); // Parseamos el JSON
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status}`);
+      }
+
+      const jsonResponse = await response.json();
 
       setRitualData(jsonResponse);
       clearInterval(interval);
@@ -158,6 +121,8 @@ const RitualitosApp = () => {
       setStep('error');
     }
   };
+
+
 
   const restart = () => {
     setAnswers({ who: '', climate: '', pain: '', light: '', message: '' });
@@ -359,6 +324,80 @@ const RitualitosApp = () => {
 
           <div className="text-center pb-12">
             <p className="text-stone-500 mb-8 font-serif italic text-lg">{ritualData.cierre}</p>
+
+            {/* Call to Action - Materializar */}
+            <div className="bg-[#2C2420] rounded-2xl p-8 md:p-12 text-center relative overflow-hidden mb-12">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500 rounded-full mix-blend-overlay filter blur-3xl opacity-20"></div>
+              <div className="relative z-10 space-y-6">
+                <Sparkles className="w-8 h-8 text-orange-400 mx-auto" />
+                <h3 className="text-2xl md:text-3xl font-serif text-white">
+                  ¿Quieres convertir este ritual en realidad?
+                </h3>
+                <p className="text-stone-300 max-w-xl mx-auto">
+                  Déjanos tus datos y te ayudaremos a materializar este regalo con nuestra curaduría especial.
+                  Es realidad tu regalo.
+                </p>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    const email = formData.get('email');
+                    const phone = formData.get('phone');
+
+                    const subject = "Solicitud de Ritual Real - Ritualitos";
+                    const body = `
+Hola Ritualistas,
+
+Quiero hacer realidad el siguiente ritual generado:
+
+--- PERFIL ---
+Vínculo: ${answers.who}
+Clima: ${answers.climate}
+Necesidad: ${answers.pain}
+Luz: ${answers.light}
+Mensaje: ${answers.message}
+
+--- RITUAL GENERADO ---
+Objeto: ${ritualData.material.titulo}
+Experiencia: ${ritualData.experiencial.titulo}
+Símbolo: ${ritualData.simbolico.titulo}
+
+--- MIS DATOS ---
+Correo: ${email}
+Teléfono: ${phone}
+
+¿Qué opinan? Quiero conseguir mi ritual real.
+                    `;
+
+                    window.location.href = `mailto:ritual@ritualistas.mx?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                  }}
+                  className="max-w-md mx-auto space-y-4 mt-6"
+                >
+                  <input
+                    required
+                    type="email"
+                    name="email"
+                    placeholder="Tu correo electrónico"
+                    className="w-full px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  />
+                  <input
+                    required
+                    type="tel"
+                    name="phone"
+                    placeholder="Tu teléfono (WhatsApp)"
+                    className="w-full px-6 py-3 rounded-full bg-white/10 border border-white/20 text-white placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-400"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full px-8 py-3 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-medium transition-colors shadow-lg shadow-orange-900/50"
+                  >
+                    Materializar mi regalo
+                  </button>
+                </form>
+              </div>
+            </div>
+
             <button
               onClick={restart}
               className="inline-flex items-center px-6 py-2 border border-stone-200 rounded-full text-stone-500 hover:bg-white hover:text-[#2C2420] transition-colors text-sm"
