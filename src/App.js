@@ -147,11 +147,11 @@ const RitualitosApp = () => {
             </div>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-serif text-[#2C2420] tracking-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif text-[#2C2420] tracking-tight">
             Ritualitos
           </h1>
 
-          <p className="text-lg text-[#6B5D55] leading-relaxed">
+          <p className="text-base sm:text-lg text-[#6B5D55] leading-relaxed">
             Aquí no buscamos regalos, tejemos vínculos. <br />
             Un espacio para encontrar el gesto perfecto <br />
             inspirado en la raíz, la emoción y el alma.
@@ -175,7 +175,7 @@ const RitualitosApp = () => {
 
     return (
       <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-4 md:p-8">
-        <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl shadow-stone-100/50 p-8 md:p-12 relative overflow-hidden">
+        <div className="w-full max-w-2xl bg-white rounded-3xl shadow-xl shadow-stone-100/50 p-6 md:p-12 relative overflow-hidden">
 
           {/* Barra de progreso */}
           <div className="absolute top-0 left-0 h-1 bg-stone-100 w-full">
@@ -212,7 +212,7 @@ const RitualitosApp = () => {
             value={answers[q.id]}
             onChange={handleInputChange}
             placeholder={q.placeholder}
-            className="w-full h-32 md:h-40 p-4 bg-[#FAF9F6] border-none rounded-xl text-[#4A403A] text-lg placeholder-stone-300 focus:ring-2 focus:ring-orange-200 resize-none transition-all"
+            className="w-full h-40 md:h-56 p-4 bg-[#FAF9F6] border-none rounded-xl text-[#4A403A] text-lg placeholder-stone-300 focus:ring-2 focus:ring-orange-200 resize-none transition-all"
           />
 
           <div className="mt-8 flex justify-end">
@@ -276,10 +276,10 @@ const RitualitosApp = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             {/* Tarjeta Material */}
-            <div className="bg-white rounded-2xl p-6 shadow-xl shadow-stone-100/50 hover:shadow-2xl hover:shadow-stone-200/50 transition-all border-t-4 border-stone-200">
+            <div className="bg-white rounded-2xl p-5 md:p-6 shadow-xl shadow-stone-100/50 hover:shadow-2xl hover:shadow-stone-200/50 transition-all border-t-4 border-stone-200">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-stone-100 rounded-lg"><Gift className="w-5 h-5 text-stone-600" /></div>
                 <h3 className="font-serif text-xl text-[#2C2420]">El Objeto</h3>
@@ -293,7 +293,7 @@ const RitualitosApp = () => {
             </div>
 
             {/* Tarjeta Experiencial */}
-            <div className="bg-white rounded-2xl p-6 shadow-xl shadow-stone-100/50 hover:shadow-2xl hover:shadow-stone-200/50 transition-all border-t-4 border-orange-200">
+            <div className="bg-white rounded-2xl p-5 md:p-6 shadow-xl shadow-stone-100/50 hover:shadow-2xl hover:shadow-stone-200/50 transition-all border-t-4 border-orange-200">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-orange-50 rounded-lg"><Sun className="w-5 h-5 text-orange-500" /></div>
                 <h3 className="font-serif text-xl text-[#2C2420]">La Experiencia</h3>
@@ -307,7 +307,7 @@ const RitualitosApp = () => {
             </div>
 
             {/* Tarjeta Simbólica */}
-            <div className="bg-white rounded-2xl p-6 shadow-xl shadow-stone-100/50 hover:shadow-2xl hover:shadow-stone-200/50 transition-all border-t-4 border-emerald-200">
+            <div className="bg-white rounded-2xl p-5 md:p-6 shadow-xl shadow-stone-100/50 hover:shadow-2xl hover:shadow-stone-200/50 transition-all border-t-4 border-emerald-200">
               <div className="flex items-center gap-3 mb-4">
                 <div className="p-2 bg-emerald-50 rounded-lg"><Feather className="w-5 h-5 text-emerald-600" /></div>
                 <h3 className="font-serif text-xl text-[#2C2420]">El Ritual</h3>
