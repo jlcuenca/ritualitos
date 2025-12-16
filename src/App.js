@@ -370,7 +370,7 @@ Teléfono: ${phone}
 ¿Qué opinan? Quiero conseguir mi ritual real.
                     `;
 
-                    window.location.href = `mailto:ritual@ritualistas.mx?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = `mailto:contacto@ritualitos.mx?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                   }}
                   className="max-w-md mx-auto space-y-4 mt-6"
                 >
