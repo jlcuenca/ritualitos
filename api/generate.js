@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     }
 
     // Obtener API Key del entorno seguro del servidor
-    const apiKey = process.env.GEMINI_API_KEY;
+    const apiKey = process.env.GEMINI_API_KEY || process.env.REACT_APP_GEMINI_API_KEY;
 
     if (!apiKey) {
         console.error("Error: GEMINI_API_KEY no está configurada en las variables de entorno.");

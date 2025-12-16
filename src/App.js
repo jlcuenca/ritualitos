@@ -106,7 +106,20 @@ const RitualitosApp = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`API Error: ${response.status}`);
+        let errorMessage = `API Error: ${response.status}`;
+        try {
+          const errorData = await response.json();
+          console.error("API Error Details:", errorData);
+          if (errorData.error) {
+            errorMessage += ` - ${errorData.error}`;
+          }
+          if (errorData.details) {
+            errorMessage += ` (${errorData.details})`;
+          }
+        } catch (e) {
+          console.error("Could not parse error response JSON", e);
+        }
+        throw new Error(errorMessage);
       }
 
       const jsonResponse = await response.json();
