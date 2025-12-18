@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+// Vercel trigger commit: focus on resilience
 import { Sparkles, Heart, Feather, Gift, Sun, CloudRain, Moon, ArrowRight, RefreshCw } from 'lucide-react';
 
 
