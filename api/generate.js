@@ -89,9 +89,37 @@ export default async function handler(req, res) {
         if (textResponse.startsWith('```')) {
             textResponse = textResponse.replace(/^```(json)?\s*/, '').replace(/\s*```$/, '');
         }
-        const jsonResponse = JSON.parse(textResponse);
 
-        res.status(200).json(jsonResponse);
+        let jsonResponse;
+        try {
+            jsonResponse = JSON.parse(textResponse);
+        } catch (parseError) {
+            console.error("Failed to parse AI response:", textResponse);
+            throw new Error("Invalid JSON format from AI");
+        }
+
+        // --- VALIDACIÓN Y NORMALIZACIÓN ---
+        const finalResponse = {
+            analisis: jsonResponse.analisis || "Un ritual para honrar vuestra conexión.",
+            material: {
+                titulo: jsonResponse.material?.titulo || "Objeto Ritual",
+                descripcion: jsonResponse.material?.descripcion || "Un detalle con alma.",
+                significado: jsonResponse.material?.significado || "Nutrir el vínculo."
+            },
+            experiencial: {
+                titulo: jsonResponse.experiencial?.titulo || "Encuentro Esencial",
+                descripcion: jsonResponse.experiencial?.descripcion || "Una vivencia compartida.",
+                significado: jsonResponse.experiencial?.significado || "Volver a vuestra raíz."
+            },
+            simbolico: {
+                titulo: jsonResponse.simbolico?.titulo || "Acto de Poder",
+                descripcion: jsonResponse.simbolico?.descripcion || "Un pequeño gesto sagrado.",
+                significado: jsonResponse.simbolico?.significado || "Manifestar la intención."
+            },
+            cierre: jsonResponse.cierre || "Que la luz guíe vuestro camino."
+        };
+
+        res.status(200).json(finalResponse);
 
     } catch (error) {
         console.error("Backend Error:", error);

@@ -266,9 +266,20 @@ const RitualitosApp = () => {
 
   if (step === 'error') {
     return (
-      <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-6">
-        <p className="text-red-400 mb-4">Hubo un problema al conectar con la esencia.</p>
-        <button onClick={() => setStep('form')} className="text-stone-600 underline">Intentar de nuevo</button>
+      <div className="min-h-screen bg-[#FDFBF7] flex flex-col items-center justify-center p-6 text-center max-w-md mx-auto">
+        <div className="p-4 bg-red-50 rounded-full mb-6">
+          <CloudRain className="w-10 h-10 text-red-400" />
+        </div>
+        <h3 className="text-xl font-serif text-[#2C2420] mb-2">Hubo un problema al conectar con la esencia</h3>
+        <p className="text-[#8C8179] mb-8">
+          No pudimos tejer el ritual en este momento. Por favor, asegúrate de que tu conexión es estable e inténtalo de nuevo.
+        </p>
+        <button
+          onClick={() => setStep('form')}
+          className="px-8 py-3 bg-[#2C2420] text-white rounded-full font-medium hover:bg-[#4A403A] transition-all"
+        >
+          Intentar de nuevo
+        </button>
       </div>
     )
   }
@@ -285,7 +296,7 @@ const RitualitosApp = () => {
             </div>
             <h2 className="text-3xl md:text-4xl font-serif text-[#2C2420]">Tu Guía de Conexión</h2>
             <p className="text-lg text-[#6B5D55] max-w-2xl mx-auto italic font-serif">
-              "{ritualData.analisis}"
+              "{ritualData?.analisis || 'Sintiendo la profundidad de tu vínculo...'}"
             </p>
           </div>
 
@@ -297,11 +308,11 @@ const RitualitosApp = () => {
                 <div className="p-2 bg-stone-100 rounded-lg"><Gift className="w-5 h-5 text-stone-600" /></div>
                 <h3 className="font-serif text-xl text-[#2C2420]">El Objeto</h3>
               </div>
-              <h4 className="text-lg font-bold text-orange-900 mb-2">{ritualData.material.titulo}</h4>
-              <p className="text-[#6B5D55] mb-4 text-sm leading-relaxed">{ritualData.material.descripcion}</p>
+              <h4 className="text-lg font-bold text-orange-900 mb-2">{ritualData?.material?.titulo || 'Objeto de Conexión'}</h4>
+              <p className="text-[#6B5D55] mb-4 text-sm leading-relaxed">{ritualData?.material?.descripcion || 'Un detalle pensado para el alma.'}</p>
               <div className="bg-[#FDFBF7] p-4 rounded-xl">
                 <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">Intención</p>
-                <p className="text-sm text-stone-600 italic">{ritualData.material.significado}</p>
+                <p className="text-sm text-stone-600 italic">{ritualData?.material?.significado || 'Nutrir el vínculo desde la raíz.'}</p>
               </div>
             </div>
 
@@ -311,11 +322,11 @@ const RitualitosApp = () => {
                 <div className="p-2 bg-orange-50 rounded-lg"><Sun className="w-5 h-5 text-orange-500" /></div>
                 <h3 className="font-serif text-xl text-[#2C2420]">La Experiencia</h3>
               </div>
-              <h4 className="text-lg font-bold text-orange-900 mb-2">{ritualData.experiencial.titulo}</h4>
-              <p className="text-[#6B5D55] mb-4 text-sm leading-relaxed">{ritualData.experiencial.descripcion}</p>
+              <h4 className="text-lg font-bold text-orange-900 mb-2">{ritualData?.experiencial?.titulo || 'Instante Compartido'}</h4>
+              <p className="text-[#6B5D55] mb-4 text-sm leading-relaxed">{ritualData?.experiencial?.descripcion || 'Una vivencia para crear memorias.'}</p>
               <div className="bg-[#FDFBF7] p-4 rounded-xl">
                 <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">Conexión</p>
-                <p className="text-sm text-stone-600 italic">{ritualData.experiencial.significado}</p>
+                <p className="text-sm text-stone-600 italic">{ritualData?.experiencial?.significado || 'Volver a encontrarse en lo esencial.'}</p>
               </div>
             </div>
 
@@ -325,18 +336,18 @@ const RitualitosApp = () => {
                 <div className="p-2 bg-emerald-50 rounded-lg"><Feather className="w-5 h-5 text-emerald-600" /></div>
                 <h3 className="font-serif text-xl text-[#2C2420]">El Ritual</h3>
               </div>
-              <h4 className="text-lg font-bold text-orange-900 mb-2">{ritualData.simbolico.titulo}</h4>
-              <p className="text-[#6B5D55] mb-4 text-sm leading-relaxed">{ritualData.simbolico.descripcion}</p>
+              <h4 className="text-lg font-bold text-orange-900 mb-2">{ritualData?.simbolico?.titulo || 'Acto de Poder'}</h4>
+              <p className="text-[#6B5D55] mb-4 text-sm leading-relaxed">{ritualData?.simbolico?.descripcion || 'Un gesto pequeño con gran significado.'}</p>
               <div className="bg-[#FDFBF7] p-4 rounded-xl">
                 <p className="text-xs font-bold text-stone-400 uppercase tracking-wider mb-1">Símbolo</p>
-                <p className="text-sm text-stone-600 italic">{ritualData.simbolico.significado}</p>
+                <p className="text-sm text-stone-600 italic">{ritualData?.simbolico?.significado || 'Manifestar la intención en el presente.'}</p>
               </div>
             </div>
 
           </div>
 
           <div className="text-center pb-12">
-            <p className="text-stone-500 mb-8 font-serif italic text-lg">{ritualData.cierre}</p>
+            <p className="text-stone-500 mb-8 font-serif italic text-lg">{ritualData?.cierre || 'Que este ritual ilumine vuestro camino.'}</p>
 
             {/* Call to Action - Materializar */}
             <div className="bg-[#2C2420] rounded-2xl p-8 md:p-12 text-center relative overflow-hidden mb-12">
@@ -372,9 +383,9 @@ Luz: ${answers.light}
 Mensaje: ${answers.message}
 
 --- RITUAL GENERADO ---
-Objeto: ${ritualData.material.titulo}
-Experiencia: ${ritualData.experiencial.titulo}
-Símbolo: ${ritualData.simbolico.titulo}
+Objeto: ${ritualData?.material?.titulo || 'N/A'}
+Experiencia: ${ritualData?.experiencial?.titulo || 'N/A'}
+Símbolo: ${ritualData?.simbolico?.titulo || 'N/A'}
 
 --- MIS DATOS ---
 Correo: ${email}
@@ -383,7 +394,7 @@ Teléfono: ${phone}
 ¿Qué opinan? Quiero conseguir mi ritual real.
                     `;
 
-                    window.location.href = `mailto:contacto@ritualitos.mx?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.location.href = `mailto:ritual@ritualitos.mx?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
                   }}
                   className="max-w-md mx-auto space-y-4 mt-6"
                 >
