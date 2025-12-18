@@ -29,40 +29,32 @@ export default async function handler(req, res) {
         const { who, climate, pain, light, message } = req.body;
 
         const prompt = `
-        Actúa como 'Ritualitos', un sistema experto en psicología, vínculos humanos y simbología ancestral.
-        
-        PERFIL DE LA PERSONA:
-        1. Vínculo: ${who}
-        2. Clima Interno: ${climate}
-        3. Herida/Necesidad: ${pain}
-        4. Su Luz: ${light}
-        5. Mensaje Silencioso: ${message}
+        Eres 'Ritualitos', un sistema experto en psicología, vínculos y simbología ancestral.
+        Tu misión es transformar el perfil de una persona en 3 recomendaciones significativas.
 
-        TAREA:
-        Genera 3 recomendaciones de regalo/gesto altamente personalizadas.
-        El tono debe ser cálido, humano, profundo y con toques de sabiduría ancestral.
-        
-        FORMATO JSON (IMPORTANTE: Solo devuelve el JSON, nada más):
+        DATOS DE ENTRADA:
+        - Vínculo: ${who}
+        - Clima Interno: ${climate}
+        - Herida/Necesidad: ${pain}
+        - Su Luz: ${light}
+        - Mensaje Silencioso: ${message}
+
+        REGLAS CRÍTICAS:
+        1. Responde ÚNICAMENTE con un objeto JSON válido.
+        2. No incluyas texto antes ni después del JSON.
+        3. No uses bloques de código (sin \`\`\`json). Solo el texto plano del objeto JSON.
+        4. El tono debe ser poético, cálido y profundo.
+        5. Evita temas prohibidos o dañinos; si el contenido es sensible, mantén un enfoque de apoyo emocional suave.
+
+        ESTRUCTURA JSON REQUERIDA:
         {
-          "analisis": "Una frase poética y empática que resuma su estado actual y vuestro vínculo.",
-          "material": {
-            "titulo": "Nombre del objeto",
-            "descripcion": "Qué es exactamente (sé específico, no genérico).",
-            "significado": "El por qué emocional y simbólico."
-          },
-          "experiencial": {
-            "titulo": "Nombre de la experiencia",
-            "descripcion": "Qué harán (o hará) exactamente.",
-            "significado": "Cómo esto sana o conecta."
-          },
-          "simbolico": {
-            "titulo": "Nombre del ritual",
-            "descripcion": "Un acto pequeño, psicomágico o simbólico.",
-            "significado": "La intención espiritual/energética detrás."
-          },
-          "cierre": "Una frase final de bendición o buenos deseos."
+          "analisis": "Frase corta y poética sobre su estado.",
+          "material": { "titulo": "...", "descripcion": "...", "significado": "..." },
+          "experiencial": { "titulo": "...", "descripcion": "...", "significado": "..." },
+          "simbolico": { "titulo": "...", "descripcion": "...", "significado": "..." },
+          "cierre": "Frase final de luz."
         }
-    `;
+        `;
 
         const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
@@ -72,7 +64,8 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 contents: [{ parts: [{ text: prompt }] }],
                 generationConfig: {
-                    responseMimeType: "application/json"
+                    responseMimeType: "application/json",
+                    temperature: 0.7
                 }
             })
         });
@@ -83,9 +76,22 @@ export default async function handler(req, res) {
         }
 
         const data = await response.json();
+
+        // Verificar si la respuesta fue bloqueada por seguridad
+        if (data.candidates && data.candidates[0].finishReason === 'SAFETY') {
+            return res.status(400).json({
+                error: 'Contenido Sensible',
+                details: 'La intención es profunda, pero por favor intenta expresar tus respuestas con palabras más suaves para que el ritual pueda florecer.'
+            });
+        }
+
+        if (!data.candidates || !data.candidates[0].content || !data.candidates[0].content.parts) {
+            throw new Error("Respuesta incompleta de la IA");
+        }
+
         let textResponse = data.candidates[0].content.parts[0].text;
 
-        // Extraer JSON de bloques de código markdown de forma más robusta
+        // Extraer JSON de bloques de código markdown o texto plano de forma más robusta
         const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
         if (jsonMatch) {
             textResponse = jsonMatch[0];
@@ -100,7 +106,6 @@ export default async function handler(req, res) {
         }
 
         // --- VALIDACIÓN Y NORMALIZACIÓN FLEXIBLE ---
-        // Buscamos propiedades ignorando mayúsculas/minúsculas si es necesario
         const getProp = (obj, key) => {
             if (!obj) return null;
             return obj[key] || obj[key.toLowerCase()] || obj[key.charAt(0).toUpperCase() + key.slice(1)];
