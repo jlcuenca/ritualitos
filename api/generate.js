@@ -85,9 +85,10 @@ export default async function handler(req, res) {
         const data = await response.json();
         let textResponse = data.candidates[0].content.parts[0].text;
 
-        // Limpiar bloques de código markdown si existen
-        if (textResponse.startsWith('```')) {
-            textResponse = textResponse.replace(/^```(json)?\s*/, '').replace(/\s*```$/, '');
+        // Extraer JSON de bloques de código markdown de forma más robusta
+        const jsonMatch = textResponse.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            textResponse = jsonMatch[0];
         }
 
         let jsonResponse;
@@ -98,25 +99,31 @@ export default async function handler(req, res) {
             throw new Error("Invalid JSON format from AI");
         }
 
-        // --- VALIDACIÓN Y NORMALIZACIÓN ---
+        // --- VALIDACIÓN Y NORMALIZACIÓN FLEXIBLE ---
+        // Buscamos propiedades ignorando mayúsculas/minúsculas si es necesario
+        const getProp = (obj, key) => {
+            if (!obj) return null;
+            return obj[key] || obj[key.toLowerCase()] || obj[key.charAt(0).toUpperCase() + key.slice(1)];
+        };
+
         const finalResponse = {
-            analisis: jsonResponse.analisis || "Un ritual para honrar vuestra conexión.",
+            analisis: getProp(jsonResponse, 'analisis') || "Un ritual para honrar vuestra conexión.",
             material: {
-                titulo: jsonResponse.material?.titulo || "Objeto Ritual",
-                descripcion: jsonResponse.material?.descripcion || "Un detalle con alma.",
-                significado: jsonResponse.material?.significado || "Nutrir el vínculo."
+                titulo: getProp(jsonResponse.material, 'titulo') || "Objeto Ritual",
+                descripcion: getProp(jsonResponse.material, 'descripcion') || "Un detalle con alma.",
+                significado: getProp(jsonResponse.material, 'significado') || "Nutrir el vínculo."
             },
             experiencial: {
-                titulo: jsonResponse.experiencial?.titulo || "Encuentro Esencial",
-                descripcion: jsonResponse.experiencial?.descripcion || "Una vivencia compartida.",
-                significado: jsonResponse.experiencial?.significado || "Volver a vuestra raíz."
+                titulo: getProp(jsonResponse.experiencial, 'titulo') || "Encuentro Esencial",
+                descripcion: getProp(jsonResponse.experiencial, 'descripcion') || "Una vivencia compartida.",
+                significado: getProp(jsonResponse.experiencial, 'significado') || "Volver a vuestra raíz."
             },
             simbolico: {
-                titulo: jsonResponse.simbolico?.titulo || "Acto de Poder",
-                descripcion: jsonResponse.simbolico?.descripcion || "Un pequeño gesto sagrado.",
-                significado: jsonResponse.simbolico?.significado || "Manifestar la intención."
+                titulo: getProp(jsonResponse.simbolico, 'titulo') || "Acto de Poder",
+                descripcion: getProp(jsonResponse.simbolico, 'descripcion') || "Un pequeño gesto sagrado.",
+                significado: getProp(jsonResponse.simbolico, 'significado') || "Manifestar la intención."
             },
-            cierre: jsonResponse.cierre || "Que la luz guíe vuestro camino."
+            cierre: getProp(jsonResponse, 'cierre') || "Que la luz guíe vuestro camino."
         };
 
         res.status(200).json(finalResponse);
